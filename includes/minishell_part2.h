@@ -111,7 +111,7 @@ void typealize_call_loop(t_token *token, char **env);/////////call_loops
 void merg_tok_excep_cll_revloop(t_token *token);//////call_loops
 t_token *delegated_by_input_handler(char *input, char **env);/////////////////input_handler
 //void input_handler(char **env, char *input);//////input_handler
-void	input_handler(t_shell *shell, char *input);//////nova input_handler - JOAO
+t_token *input_handler(t_shell *shell, char *input);//////nova input_handler - JOAO
 //void readline_loop(char **env);///////////readline_loop
 bool is_executable(const char *path);
 bool is_regular_file(const char *path);
