@@ -77,25 +77,43 @@ static int	parse_exit_arg(char *arg_str, int *exit_val)
 }
 
 /* Builtin exit command */
-int	ft_exit(char **args, t_shell *shell)
+int ft_exit(char **args, t_shell *shell)
 {
-	int	exit_val;
-	int	parse_status;
+    int exit_val_to_use;
+    int parse_result;
 
-	exit_val = g_exit_code;
-	ft_putstr_fd("exit\n", STDERR_FILENO);
-	if (args[1])
-	{
-		parse_status = parse_exit_arg(args[1], &exit_val);
-		if (parse_status != 0)
-		{
-			cleanup_shell(shell);
-			exit(exit_val);
-			if (args[2])
-				ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-			return (1);
-		}
-	}
-	cleanup_shell(shell);
-	exit(exit_val);
+    ft_putstr_fd("exit\n", STDERR_FILENO);
+
+    if (args[1] && args[2])
+    {
+        ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+        g_exit_code = 1;
+        return (1);
+    }
+    else if (args[1])
+    {        
+        parse_result = parse_exit_arg(args[1], &exit_val_to_use);
+
+        if (parse_result != 0)
+        {
+            ft_putstr_fd("minishell: exit: ", 2);
+            ft_putstr_fd(args[1], 2);
+            ft_putstr_fd(": numeric argument required\n", 2);
+            cleanup_shell(shell);
+            exit(exit_val_to_use); 
+        }
+        else
+        {
+            cleanup_shell(shell);
+            exit(exit_val_to_use); 
+        }
+    }
+    else
+    {
+        exit_val_to_use = g_exit_code;
+        cleanup_shell(shell);
+        exit(exit_val_to_use); 
+    }
+    return (0);
 }
+
