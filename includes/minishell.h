@@ -96,14 +96,25 @@ typedef enum e_token_type {
 
  typedef struct s_node_tree
  {
-     t_ranking           rank;
-     t_ast_type          type;
-     char                **args;
-     char                *file;
-     char                *content;
-     struct s_node_tree  *left;
-     struct s_node_tree  *right;
- }               t_node_tree;
+     t_ranking rank; // EXISTS in original struct
+     t_ast_type type; // EXISTS in original struct
+     char       **args; // EXISTS in original struct
+     char       *file; // EXISTS in original struct
+     char       *content; // EXISTS in original struct
+     struct s_node_tree *left; // EXISTS in original struct
+     struct s_node_tree *right; // EXISTS in original struct
+     // NO redirections array/count
+     // other fields? (used, err, coretype, literal, merge_next - these were in t_token)
+     // Yes, these fields from t_token seem to also exist in t_node_tree in your original code.
+     // Let's add them back to be fully consistent with your starting point.
+      bool used;
+      int err;
+      t_token_type coretype; // Duplicates info with t_ast_type?
+      bool literal;
+      bool merge_next;
+ 
+ } t_node_tree;
+ 
 
  typedef t_node_tree *t_tree;
 
@@ -145,6 +156,15 @@ typedef struct s_exp_cpy_vars
 	int		start;		// Start index for substring
 	size_t	count;		// Current write index/length in dst
 }	t_exp_cpy_vars; // Typedef for the struct
+
+typedef struct s_command_redir {
+    t_token_type type; // Store original token type: TOKEN_REDIR_IN, TOKEN_REDIR_OUT, TOKEN_APPEND, TOKEN_HEREDOC
+    char       *file;  // The filename or delimiter string (will be a pointer to the value from the token)
+    // We don't need a count/array of these *in* the t_node_tree for *this specific AST structure*,
+    // as the chain structure itself dictates the redirections. This struct is mostly
+    // illustrative of the data contained within a REDIR node in the chain.
+} t_command_redir;
+
 
  /*
  ** Parser functions
@@ -254,5 +274,7 @@ char	**command_list_malloc(char **env);
 int	populate_command_list(char **list, char **env);
 char	**init_command_list(char **env);
 t_token	*finalize_list(t_token *first, t_token *last);
+void set_parser_error(const char *message, const char *token_value);
+int execute_redirection_chain(t_shell *shell, t_node_tree *node);
 
  #endif

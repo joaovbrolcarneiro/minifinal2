@@ -6,7 +6,7 @@
 /*   By: jbrol-ca <jbrol-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 17:25:45 by hde-barr          #+#    #+#             */
-/*   Updated: 2025/04/17 21:30:35 by jbrol-ca         ###   ########.fr       */
+/*   Updated: 2025/04/19 19:39:44 by jbrol-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,4 +139,22 @@ t_node_tree	*make_yggdrasil(t_token *t, t_token *f, t_token *e, t_node_tree *y)/
 	if (y->right)
 		make_yggdrasil(find_right_token(t, e), f, e, y->right);
 	return (y);
+}
+
+void set_parser_error(const char *message, const char *token_value)
+{
+    // Cast the string literals and const char* variables to char* for ft_putstr_fd
+    ft_putstr_fd((char *)"konosubash: ", 2); // Cast string literal
+    if (message)
+        ft_putstr_fd((char *)message, 2); // Cast message
+    // Add token value for context if available
+    if (token_value && *token_value) // Check if token_value is not NULL or empty
+    {
+        ft_putstr_fd((char *)" `", 2); // Cast string literal
+        ft_putstr_fd((char *)token_value, 2); // Cast token_value
+        ft_putstr_fd((char *)"'", 2); // Cast string literal
+    }
+    ft_putstr_fd((char *)"\n", 2); // Cast string literal
+
+    g_exit_code = 2; // Standard exit code for syntax errors
 }
