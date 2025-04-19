@@ -276,5 +276,8 @@ char	**init_command_list(char **env);
 t_token	*finalize_list(t_token *first, t_token *last);
 void set_parser_error(const char *message, const char *token_value);
 int execute_redirection_chain(t_shell *shell, t_node_tree *node);
+long long get_new_token_id(void);
+void free_token_list(t_token *list);
+
 
  #endif
