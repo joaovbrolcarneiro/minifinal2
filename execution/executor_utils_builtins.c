@@ -6,17 +6,11 @@
 /* By: hde-barr <hde-barr@student.42.fr>          +#+  +:+       +#+        */
 /* +#+#+#+#+#+   +#+           */
 /* Created: 2025/04/15 12:15:02 by hde-barr          #+#    #+#             */
-/* Updated: 2025/04/20 18:30:00 by hde-barr         ###   ########.fr       */ // (Update date)
+/* Updated: 2025/04/20 18:30:00 by hde-barr         ###   ########.fr       */
 /* */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*
-** Builtin echo command
-*/
-
-
 
 static bool	is_str_numeric(char *arg_str)
 {
@@ -103,7 +97,7 @@ int	ft_exit(char **args, t_shell *shell)
 	ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (args[1] && args[2])
 	{
-		ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
+		ft_putstr_fd("minishell: exit: too many args\n", STDERR_FILENO);
 		g_exit_code = 1;
 		return (1);
 	}

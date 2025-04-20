@@ -86,7 +86,6 @@ void	join_and_split(t_token *priv, t_token *arg_token)
 	}
 }
 
-
 static t_token	*attach_args_to_token(t_token *start_token, t_token *first)
 {
 	t_token	*arg_token;

@@ -1,43 +1,43 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   tokenlst_v2.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jbrol-ca <jbrol-ca@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/31 21:05:42 by hde-barr          #+#    #+#             */
-/*   Updated: 2025/04/17 19:32:41 by jbrol-ca         ###   ########.fr       */
-/*                                                                            */
+/* */
+/* :::      ::::::::   */
+/* tokenlst_v2.c                                    :+:      :+:    :+:   */
+/* +:+ +:+         +:+     */
+/* By: jbrol-ca <jbrol-ca@student.42.fr>          +#+  +:+       +#+        */
+/* GPLv3+   +#+           */
+/* Created: 2025/03/31 21:05:42 by hde-barr          #+#    #+#             */
+/* Updated: 2025/04/17 19:32:41 by jbrol-ca         ###   ########.fr       */
+/* */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 #include "minishell_part2.h"
 
-bool proximity_exception(char *input, int i)
+bool	proximity_exception(char *input, int i)
 {
-	if((!ischarset("|<>", input[i]) && input[i] != ' ') && \
-    input[i] && !ischarset("|<>", *input ))
+	if ((!ischarset("|<>", input[i]) && input[i] != ' ') && \
+		input[i] && !ischarset("|<>", *input))
 		return (true);
 	return (false);
 }
 
-/////////////////////////////////////////////// MEXI NESSA FUNCAO
-
-t_token *typealize(t_token *token, char **env)///////
+/*
+** ///////////////////////////////////////////// MEXI NESSA FUNCAO /////////
+** Helper function to determine and assign the correct token type and properties.
+*/
+t_token	*typealize(t_token *token, char **env)
 {
 	if (token->type == TOKEN_ASSIGNMENT) // coloquei isso de resto mudei nada
-		return (token); 
-
-	if(is_pipe_super(token->value))
-		return(new_token_super(new_pipe(token)));
-	if(is_redir_super(token->value))
-		return(new_token_super(new_redir(token)));
-	if(is_cmd_super(token->value, env))
-		return(new_token_super(new_cmd(token)));
-	if(is_word_super(token->value))
-		return(new_token_super(new_word(token)));
-	if(is_eof(token->value))
+		return (token);
+	if (is_pipe_super(token->value))
+		return (new_token_super(new_pipe(token)));
+	if (is_redir_super(token->value))
+		return (new_token_super(new_redir(token)));
+	if (is_cmd_super(token->value, env))
+		return (new_token_super(new_cmd(token)));
+	if (is_word_super(token->value))
+		return (new_token_super(new_word(token)));
+	if (is_eof(token->value))
 		return (new_token_super(new_eof(token)));
 	return (token);
 }

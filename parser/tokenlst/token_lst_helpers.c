@@ -56,11 +56,11 @@ char	*get_envar(char **env, char *var)
 	while (env[i])
 	{
 		eq_ptr = ft_strchr(env[i], '=');
-		if (eq_ptr) // Check if '=' exists
+		if (eq_ptr)
 		{
-			key_len = eq_ptr - env[i]; // Calculate length of key part
+			key_len = eq_ptr - env[i];
 			if (key_len == var_len && ft_strncmp(env[i], var, key_len) == 0)
-				return (eq_ptr + 1); // Return pointer to value part
+				return (eq_ptr + 1);
 		}
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: jbrol-ca <jbrol-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 17:28:02 by hde-barr          #+#    #+#             */
-/*   Updated: 2025/04/17 19:41:23 by jbrol-ca         ###   ########.fr       */
+/*   Updated: 2025/04/20 21:03:25 by jbrol-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ bool token_err(t_token *token_lst)
 {
 	while (token_lst)
 	{
-		//printf("%d\n",token_lst->err);
 		if(token_lst->err == 1)
 			return (true);
 		token_lst = token_lst->next;
@@ -36,11 +35,7 @@ t_node_tree *init_yggdrasil(t_token *token_lst)
 		return(new_yggnode(new_eof(root)));
 	while (token_lst)
 	{
-		if(root->rank <= token_lst->rank\
-		 /*|| (token_lst->type == TOKEN_REDIR_OUT\
-		  || token_lst->type == TOKEN_APPEND\
-		   || token_lst->type == TOKEN_HEREDOC\
-		    || token_lst->type == TOKEN_REDIR_IN)*/)
+		if(root->rank <= token_lst->rank)
 			root = token_lst;
 		token_lst = token_lst->next;
 	}

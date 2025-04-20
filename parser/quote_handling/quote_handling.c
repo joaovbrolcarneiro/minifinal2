@@ -70,7 +70,7 @@ static char	*handle_single_quotes(t_token *token, char *original_value)
 		perror("ft_strtrim in quote_handler");
 		return (original_value);
 	}
-	// free(original_value); // Freeing original value commented out
+	// free(original_value); // free?
 	token->value = trimmed_value;
 	return (token->value);
 }
@@ -85,8 +85,7 @@ static char	*handle_double_quotes(t_token *token, char **env, \
 
 	token->literal = is_operator_literal;
 	trimmed_value = ft_strtrim(original_value, "\"");
-	// free(original_value); // Freeing original value commented out
-	if (!trimmed_value)
+	// free(original_value); // Free?
 	{
 		perror("ft_strtrim in quote_handler");
 		token->value = NULL;
@@ -97,7 +96,7 @@ static char	*handle_double_quotes(t_token *token, char **env, \
 	{
 		cmd_len = quote_handler_counter(trimmed_value, env);
 		expanded_value = quote_handler_cpy(cmd_len, trimmed_value, env);
-		// free(trimmed_value); // Freeing intermediate result commented out
+		// free(trimmed_value); // Free?
 		if (!expanded_value)
 		{
 			perror("quote_handler_cpy failed");

@@ -6,7 +6,7 @@
 /*   By: jbrol-ca <jbrol-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 17:25:45 by hde-barr          #+#    #+#             */
-/*   Updated: 2025/04/20 20:24:29 by jbrol-ca         ###   ########.fr       */
+/*   Updated: 2025/04/20 21:04:04 by jbrol-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,18 +143,16 @@ t_node_tree	*make_yggdrasil(t_token *t, t_token *f, t_token *e, t_node_tree *y)/
 
 void st_prsr_err(const char *message, const char *token_value)
 {
-    // Cast the string literals and const char* variables to char* for ft_putstr_fd
-    ft_putstr_fd((char *)"konosubash: ", 2); // Cast string literal
+    ft_putstr_fd((char *)"konosubash: ", 2);
     if (message)
-        ft_putstr_fd((char *)message, 2); // Cast message
-    // Add token value for context if available
-    if (token_value && *token_value) // Check if token_value is not NULL or empty
+        ft_putstr_fd((char *)message, 2);
+    if (token_value && *token_value)
     {
-        ft_putstr_fd((char *)" `", 2); // Cast string literal
-        ft_putstr_fd((char *)token_value, 2); // Cast token_value
-        ft_putstr_fd((char *)"'", 2); // Cast string literal
+        ft_putstr_fd((char *)" `", 2);
+        ft_putstr_fd((char *)token_value, 2);
+        ft_putstr_fd((char *)"'", 2);
     }
-    ft_putstr_fd((char *)"\n", 2); // Cast string literal
+    ft_putstr_fd((char *)"\n", 2);
 
-    g_exit_code = 2; // Standard exit code for syntax errors
+    g_exit_code = 2;
 }

@@ -6,7 +6,7 @@
 /*   By: jbrol-ca <jbrol-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 16:52:43 by hde-barr          #+#    #+#             */
-/*   Updated: 2025/04/20 20:54:09 by jbrol-ca         ###   ########.fr       */
+/*   Updated: 2025/04/20 22:10:52 by jbrol-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,7 @@ t_token	*create_and_init_token(char *input, int start, int token_len)
 
 	new_token = hb_malloc(sizeof(t_token));
 	if (!new_token)
-	{
-		perror("konosubash: split_input: hb_malloc failed");
-		return (NULL);
-	}
+		return (perror("konosubash: split_input failed"), NULL);
 	ft_memset(new_token, 0, sizeof(t_token));
 	new_token->value = ft_substr(input, start, token_len);
 	if (!new_token->value)

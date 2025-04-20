@@ -6,7 +6,7 @@
 /*   By: jbrol-ca <jbrol-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 17:50:41 by hde-barr          #+#    #+#             */
-/*   Updated: 2025/04/17 18:24:12 by jbrol-ca         ###   ########.fr       */
+/*   Updated: 2025/04/20 21:50:56 by jbrol-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,3 @@ void	handler_pipes(t_token_vec *token_vec) // - alterei - JOAO
 
 }
 */
-

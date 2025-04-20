@@ -1,10 +1,10 @@
 /* ************************************************************************** */
 /* */
 /* :::      ::::::::   */
-/* quote_expansion.c                                  :+:      :+:    :+:   */
+/* quote_expansion.c                                :+:      :+:    :+:   */
 /* +:+ +:+         +:+     */
 /* By: hde-barr <hde-barr@student.42.fr>          +#+  +:+       +#+        */
-/*<y_bin_46>+#+#+#+#+#+   +#+           */
+/* GPLv3+   +#+           */
 /* Created: 2025/04/16 20:45:00 by hde-barr          #+#    #+#             */
 /* Updated: 2025/04/16 20:55:00 by hde-barr         ###   ########.fr       */
 /* */
@@ -13,8 +13,6 @@
 #include "minishell.h"
 #include "minishell_part2.h"
 
-
-/* Helper for counter: processes one '$' expansion */
 static void	count_expansion_part(char *input, char **env, int *i, int *count)
 {
 	int		start;
@@ -33,7 +31,6 @@ static void	count_expansion_part(char *input, char **env, int *i, int *count)
 	// free(substr); // free?
 }
 
-/* Counts length of string after potential $VAR expansion (double quotes) */
 int	quote_handler_counter(char *input, char **env)
 {
 	int	i;
@@ -56,8 +53,6 @@ int	quote_handler_counter(char *input, char **env)
 	return (counter);
 }
 
-/* Helper for cpy: processes one '$' expansion */
-/* Returns true on success, false on failure */
 static bool	copy_expansion_part(t_exp_cpy_vars *v, char *input, char **env)
 {
 	char	*substr;
@@ -79,34 +74,55 @@ static bool	copy_expansion_part(t_exp_cpy_vars *v, char *input, char **env)
 	return (true);
 }
 
-/* Copies input to dst, expanding $VAR (for double quotes) */
+static bool	copy_and_expand_loop(t_exp_cpy_vars *v, char *input, char **env)
+{
+	bool	success;
+
+	success = true;
+	while (input && input[v->i] && success)
+	{
+		if (input[v->i] == '$')
+		{
+			success = copy_expansion_part(v, input, env);
+		}
+		else
+		{
+			v->dst[v->count] = input[v->i];
+			(v->count)++;
+			(v->i)++;
+		}
+	}
+	return (success);
+}
+
 char	*quote_handler_cpy(int total_len, char *input, char **env)
 {
 	t_exp_cpy_vars	v;
 	char			*trimmed_input;
-	bool			success;
+	char			*result;
 
 	trimmed_input = ft_strtrim(input, " ");
 	if (trimmed_input && ft_strcmp(trimmed_input, "$") == 0)
 	{
+		result = ft_strdup("$");
 		// free(trimmed_input); // free?
-		return (ft_strdup("$"));
+		return (result);
 	}
 	// free(trimmed_input); // free?
-
 	v.dst = ft_calloc(sizeof(char), total_len + 1);
 	if (!v.dst)
-		return (perror("minishell: calloc quote_handler_cpy"), NULL);
+	{
+		perror("minishell: calloc quote_handler_cpy");
+		return (NULL);
+	}
 	v.i = 0;
 	v.count = 0;
-	success = true;
-	while (input && input[v.i] && success)
-		if (input[v.i] == '$')
-			success = copy_expansion_part(&v, input, env);
-		else
-			v.dst[v.count++] = input[v.i++];
-	if (!success)
-		return (/*free(v.dst),*/ NULL); // free?
+
+	if (!copy_and_expand_loop(&v, input, env))
+	{
+		// free(v.dst); // free?
+		return (NULL);
+	}
 	v.dst[v.count] = '\0';
 	return (v.dst);
 }

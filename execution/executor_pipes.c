@@ -29,17 +29,11 @@ static int	wait_and_get_exit_code(pid_t pid1, pid_t pid2)
 	waitpid(pid1, &status1, 0);
 	waitpid(pid2, &status2, 0);
 	if (WIFEXITED(status2))
-	{
 		exit_code = WEXITSTATUS(status2);
-	}
 	else if (WIFSIGNALED(status2))
-	{
 		exit_code = 128 + WTERMSIG(status2);
-	}
 	else
-	{
 		exit_code = EXIT_FAILURE;
-	}
 	return (exit_code);
 }
 
