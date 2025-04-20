@@ -61,9 +61,7 @@ int	ft_unset(char **args, t_shell *shell)
 			exit_code = 1;
 		}
 		else
-		{
 			find_and_remove_var(shell, args[i]);
-		}
 		i++;
 	}
 	return (exit_code);
