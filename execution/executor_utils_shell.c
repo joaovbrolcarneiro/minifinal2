@@ -101,3 +101,27 @@ void	cleanup_shell(t_shell *shell)
 		shell->saved_stdout = -1;
 	}
 }
+
+int	ft_echo(char **args)
+{
+	int		i;
+	bool	print_newline;
+
+	i = 1;
+	print_newline = true;
+	while (args[i] && ft_strcmp(args[i], "-n") == 0)
+	{
+		print_newline = false;
+		i++;
+	}
+	while (args[i])
+	{
+		ft_putstr_fd(args[i], STDOUT_FILENO);
+		if (args[i + 1])
+			ft_putstr_fd(" ", STDOUT_FILENO);
+		i++;
+	}
+	if (print_newline)
+		ft_putstr_fd("\n", STDOUT_FILENO);
+	return (0);
+}

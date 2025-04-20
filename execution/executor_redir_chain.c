@@ -19,23 +19,15 @@ static int	process_redir_chain_node(t_node_tree **current,
 	if ((*current)->type >= AST_REDIR_IN && (*current)->type <= AST_HEREDOC)
 	{
 		if (*redir_count < MAX_REDIRECTIONS)
-		{
 			redir_nodes[(*redir_count)++] = *current;
-		}
 		else
-		{
-			ft_putstr_fd("konosubash: too many redirections\n", 2);
-			return (1);
-		}
+			return (ft_putstr_fd("konosubash: too many redirections\n", 2), 1);
 		if ((*current)->left)
 			*current = (*current)->left;
 		else if ((*current)->right)
 			*current = (*current)->right;
 		else
-		{
-			ft_putstr_fd("konosubash: syntax error near redir\n", 2);
-			return (2);
-		}
+			return (ft_putstr_fd("konosubash: syntax error redir\n", 2), 2);
 	}
 	else if ((*current)->type == AST_COMMAND)
 	{
@@ -44,10 +36,7 @@ static int	process_redir_chain_node(t_node_tree **current,
 		return (0);
 	}
 	else
-	{
-		st_prsr_err("internal error: unexpected node type", NULL);
-		return (3);
-	}
+		return (st_prsr_err("internal error: unexpected node type", NULL), 3);
 	return (0);
 }
 

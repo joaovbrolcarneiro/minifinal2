@@ -43,9 +43,7 @@ static char	*get_cd_target(char **args, char **env)
 		target = env_val;
 	}
 	else if (ft_strcmp(args[1], "-") == 0)
-	{
 		target = handle_cd_dash(env);
-	}
 	else
 		target = args[1];
 	return (target);

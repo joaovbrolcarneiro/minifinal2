@@ -4,40 +4,20 @@
 /* executor_utils_builtins.c                          :+:      :+:    :+:   */
 /* +:+ +:+         +:+     */
 /* By: hde-barr <hde-barr@student.42.fr>          +#+  +:+       +#+        */
-/* mplíčdeps   +#+           */
+/* +#+#+#+#+#+   +#+           */
 /* Created: 2025/04/15 12:15:02 by hde-barr          #+#    #+#             */
-/* Updated: 2025/04/15 12:30:00 by hde-barr         ###   ########.fr       */
+/* Updated: 2025/04/20 18:30:00 by hde-barr         ###   ########.fr       */ // (Update date)
 /* */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Builtin echo command */
-int	ft_echo(char **args)
-{
-	int		i;
-	bool	print_newline;
+/*
+** Builtin echo command
+*/
 
-	i = 1;
-	print_newline = true;
-	while (args[i] && ft_strcmp(args[i], "-n") == 0)
-	{
-		print_newline = false;
-		i++;
-	}
-	while (args[i])
-	{
-		ft_putstr_fd(args[i], STDOUT_FILENO);
-		if (args[i + 1])
-			ft_putstr_fd(" ", STDOUT_FILENO);
-		i++;
-	}
-	if (print_newline)
-		ft_putstr_fd("\n", STDOUT_FILENO);
-	return (0);
-}
 
-/* Helper: Checks if a string represents a valid integer */
+
 static bool	is_str_numeric(char *arg_str)
 {
 	int	i;
@@ -58,15 +38,17 @@ static bool	is_str_numeric(char *arg_str)
 	return (true);
 }
 
-/* Helper for ft_exit: Parses numeric argument */
-/* Returns 0 on success, sets exit_val, returns 1 on error */
+/*
+** Helper for ft_exit: Parses numeric argument
+** Returns 0 on success, sets exit_val, returns 1 on error
+*/
 static int	parse_exit_arg(char *arg_str, int *exit_val)
 {
 	if (!is_str_numeric(arg_str))
 	{
-		ft_putstr_fd("minishell: exit: ", 2);
-		ft_putstr_fd(arg_str, 2);
-		ft_putstr_fd(": numeric argument required\n", 2);
+		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+		ft_putstr_fd(arg_str, STDERR_FILENO);
+		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
 		*exit_val = 2;
 		return (1);
 	}
@@ -76,44 +58,61 @@ static int	parse_exit_arg(char *arg_str, int *exit_val)
 	return (0);
 }
 
-/* Builtin exit command */
-int ft_exit(char **args, t_shell *shell)
+/*
+** Handles the exit command with one argument.
+** Parses the argument, cleans up, and exits.
+*/
+static int	handle_exit_one_arg(char *arg_str, t_shell *shell)
 {
-    int exit_val_to_use;
-    int parse_result;
+	int	exit_val_to_use;
+	int	parse_result;
 
-    ft_putstr_fd("exit\n", STDERR_FILENO);
-
-    if (args[1] && args[2])
-    {
-        ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-        g_exit_code = 1;
-        return (1);
-    }
-    else if (args[1])
-    {        
-        parse_result = parse_exit_arg(args[1], &exit_val_to_use);
-
-        if (parse_result != 0)
-        {
-            ft_putstr_fd("minishell: exit: ", 2);
-            ft_putstr_fd(args[1], 2);
-            ft_putstr_fd(": numeric argument required\n", 2);
-            cleanup_shell(shell);
-            exit(exit_val_to_use); 
-        }
-        else
-        {
-            cleanup_shell(shell);
-            exit(exit_val_to_use); 
-        }
-    }
-    else
-    {
-        exit_val_to_use = g_exit_code;
-        cleanup_shell(shell);
-        exit(exit_val_to_use); 
-    }
-    return (0);
+	parse_result = parse_exit_arg(arg_str, &exit_val_to_use);
+	if (parse_result != 0)
+	{
+		cleanup_shell(shell);
+		exit(exit_val_to_use);
+	}
+	else
+	{
+		cleanup_shell(shell);
+		exit(exit_val_to_use);
+	}
+	return (0);
 }
 
+/*
+** Handles the exit command with no arguments.
+** Uses the global exit code, cleans up, and exits.
+*/
+static int	handle_exit_no_arg(t_shell *shell)
+{
+	int	exit_val_to_use;
+
+	exit_val_to_use = g_exit_code;
+	cleanup_shell(shell);
+	exit(exit_val_to_use);
+	return (0);
+}
+
+/*
+** Builtin exit command
+*/
+int	ft_exit(char **args, t_shell *shell)
+{
+	ft_putstr_fd("exit\n", STDERR_FILENO);
+	if (args[1] && args[2])
+	{
+		ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
+		g_exit_code = 1;
+		return (1);
+	}
+	else if (args[1])
+	{
+		return (handle_exit_one_arg(args[1], shell));
+	}
+	else
+	{
+		return (handle_exit_no_arg(shell));
+	}
+}

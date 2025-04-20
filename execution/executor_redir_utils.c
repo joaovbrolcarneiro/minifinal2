@@ -63,27 +63,16 @@ static int dispatch_ast_node(t_shell *shell, t_node_tree *node)
 
     if (!node)
         return (0);
-
     if (node->type == AST_PIPE)
-    {
         status = handle_pipe_execution(shell, node);
-    }
     else if (node->type >= AST_REDIR_IN && node->type <= AST_HEREDOC)
-    {
         status = execute_redirection_chain(shell, node);
-    }
     else if (node->type == AST_COMMAND)
-    {
         status = handle_command_execution(shell, node);
-    }
     else if (node->type == (t_ast_type)TOKEN_ASSIGNMENT)
-    {
          status = handle_assignment_execution(node);
-    }
     else if (node->type == (t_ast_type)TOKEN_WORD)
-    {
          status = handle_word_token_execution(node);
-    }
     else
     {
         ft_putstr_fd("konosubash: execute_ast: Unknown node type ", 2);
