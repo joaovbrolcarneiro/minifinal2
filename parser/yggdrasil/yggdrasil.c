@@ -6,7 +6,7 @@
 /*   By: jbrol-ca <jbrol-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 17:25:45 by hde-barr          #+#    #+#             */
-/*   Updated: 2025/04/19 19:39:44 by jbrol-ca         ###   ########.fr       */
+/*   Updated: 2025/04/20 20:24:29 by jbrol-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ t_node_tree	*make_yggdrasil(t_token *t, t_token *f, t_token *e, t_node_tree *y)/
 	return (y);
 }
 
-void set_parser_error(const char *message, const char *token_value)
+void st_prsr_err(const char *message, const char *token_value)
 {
     // Cast the string literals and const char* variables to char* for ft_putstr_fd
     ft_putstr_fd((char *)"konosubash: ", 2); // Cast string literal

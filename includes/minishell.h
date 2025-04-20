@@ -32,6 +32,7 @@
  # define BROWN   "\033[38;2;105;50;0m"
  # define PURPLE  "\033[0;35m"
  # define RESET   "\033[0;0m"
+ # define MAX_REDIRECTIONS 1024 
 
  /*
  ** Global variables
@@ -274,7 +275,7 @@ char	**command_list_malloc(char **env);
 int	populate_command_list(char **list, char **env);
 char	**init_command_list(char **env);
 t_token	*finalize_list(t_token *first, t_token *last);
-void set_parser_error(const char *message, const char *token_value);
+void st_prsr_err(const char *message, const char *token_value);
 int execute_redirection_chain(t_shell *shell, t_node_tree *node);
 long long get_new_token_id(void);
 void free_token_list(t_token *list);
