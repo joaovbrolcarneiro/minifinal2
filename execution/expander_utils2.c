@@ -64,3 +64,26 @@ int	append_normal_char(t_exp_vars *v)
 	v->i++;
 	return (0);
 }
+
+long long	get_new_token_id(void)
+{
+	static long long	id = 0;
+
+	return (id++);
+}
+
+void	free_token_list(t_token *list)
+{
+	t_token	*current;
+	t_token	*next;
+
+	current = list;
+	while (current)
+	{
+		next = current->next;
+		if (current->value)
+			free(current->value);
+		free(current);
+		current = next;
+	}
+}
