@@ -67,7 +67,7 @@ static char	*handle_single_quotes(t_token *token, char *original_value)
 	trimmed_value = ft_strtrim(original_value, "'");
 	if (!trimmed_value)
 	{
-		perror("ft_strtrim in quote_handler");
+	//	perror("ft_strtrim in quote_handler");
 		return (original_value);
 	}
 	// free(original_value); // free?
@@ -87,7 +87,7 @@ static char	*handle_double_quotes(t_token *token, char **env, \
 	trimmed_value = ft_strtrim(original_value, "\"");
 	// free(original_value); // Free?
 	{
-		perror("ft_strtrim in quote_handler");
+		//perror("ft_strtrim in quote_handler");
 		token->value = NULL;
 		return (NULL);
 	}

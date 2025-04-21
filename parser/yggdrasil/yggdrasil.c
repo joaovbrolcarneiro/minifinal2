@@ -6,7 +6,7 @@
 /*   By: jbrol-ca <jbrol-ca@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 17:25:45 by hde-barr          #+#    #+#             */
-/*   Updated: 2025/04/20 21:04:04 by jbrol-ca         ###   ########.fr       */
+/*   Updated: 2025/04/21 15:19:40 by jbrol-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,6 @@ t_token *find_left_token(t_token *token, t_token *first)
 	{
 		if(eof->rank - i == token->rank)
 			return (token);
-		//?????????
-		/*if(eof->rank - i < token->rank )
-			return (NULL);*/
-		//?????????
 		if (eof->rank - i == RANK_F)
 			return (NULL);
 		token = get_prev_node(token, first);
